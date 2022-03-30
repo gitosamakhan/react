@@ -101,6 +101,74 @@ Some Important key points
 
         export default App;
 
+### Link
+
+There is a bug in out app if we are using routing. If we goto the network tab and change the route, we will see some additional requests that are being made to download some data including `bundle.js`. This bundle.js has all the components of our react app. Everytime we change the route, it downloads it again which is bad for out app performance. for that, goto the `<a/>` link where our links for route are set, import `Link` and replace it with `<a><a/>`. also replace `href="/home"` with `to="/home"`. The code looks like this:
+
+        import React from "react";
+        import { Link } from "react-router-dom";
+
+        const Navbar = () => {
+        return (
+            <React.Fragment>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <Link class="navbar-brand" to="/">
+                    Navbar
+                </Link>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                    <Link class="nav-link" to="/">
+                        Home <span class="sr-only">(current)</span>
+                    </Link>
+                    </li>
+                    <li class="nav-item">
+                    <Link class="nav-link" to="/products">
+                        Products
+                    </Link>
+                    </li>
+                </ul>
+                </div>
+            </nav>
+            </React.Fragment>
+        );
+        };
+
+        export default Navbar;
+
+### Additional Parameters by Route
+
+When we use `<Route></Route>` to setup a route in our app. this route passes some additional params to the component which is mapped to it, these are `history`, `location` and `match`. You can view these props in React Dev Tools in chrome and search for the component mapped to the Route. These props help in routing and stuff and can be used in development.
+
+Also if we want to pass our own parameters in a component mapped to a `<Route></Route>`, we should do that using `render` instead of **component** property of Route:
+
+        <Route
+          path="/"
+          exact
+          render={() => <Home sortBy="newest" />}
+        ></Route>
+
+In the above method, the additional parameters passed by route are removed, to bring them back, use:
+
+        <Route
+          path="/"
+          exact
+          render={(props) => <Home sortBy="newest" {...props} />}
+        ></Route>
+
+### Route Parameters
+
 </details>
 
 <!-- <details>
